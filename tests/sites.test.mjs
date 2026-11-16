@@ -81,7 +81,7 @@ test("triage: proposals are staged, the desk citation needs a contact, VEX expor
   const doc = await page.exportVex("Tester");
   assert.equal(doc.statements.length, 1);
   assert.equal(doc.statements[0].products[0]["@id"], "pkg:generic/demo");
-  assert.match(doc.statements[0].status_notes, /^lanternmd maintainers \(localhost:8081\): html off$/);
+  assert.equal(doc.statements[0].status_notes, `lanternmd maintainers (${new URL(desks[0].networkUrl).host}): html off`);
 });
 
 test("kit: validation catches broken desk files", async () => {

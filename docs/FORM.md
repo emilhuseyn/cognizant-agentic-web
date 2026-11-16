@@ -1,7 +1,7 @@
 # Devpost form: Open Agentic Web Challenge
 
-Account: ekviem1 (joined 16 Nov 2026, solo). Deadline: 11 Jan 2027 08:00 PST = 20:00 Baku. Submit is
-Emil's click; the operator never presses it. The standard Devpost fields are below; the
+Account: ekviem1 (joined 16 Nov 2026, solo). Deadline: 11 Jan 2027 08:00 PST = 20:00 Baku. Submit
+is pressed by Emil only. The standard Devpost fields are below; the
 hackathon-specific questions are inferred from the Requirements on the overview page and must be
 checked against the live form when it is opened while logged in.
 

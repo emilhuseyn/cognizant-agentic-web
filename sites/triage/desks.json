@@ -4,10 +4,10 @@
     "ecosystem": "npm",
     "label": "lanternmd maintainers",
     "network": "lanternmd_security_desk",
-    "networkUrl": "http://localhost:8081/lanternmd_security_desk",
+    "networkUrl": "https://lanternmd-desk.vercel.app/lanternmd_security_desk",
     "tool": "lanternmd_security_desk",
-    "pageUrl": "http://localhost:8081/",
-    "feedUrl": "http://localhost:8081/osv/index.json",
+    "pageUrl": "https://lanternmd-desk.vercel.app/",
+    "feedUrl": "https://lanternmd-desk.vercel.app/osv/index.json",
     "fictional": true
   },
   {
@@ -15,10 +15,10 @@
     "ecosystem": "PyPI",
     "label": "tidecache maintainers",
     "network": "tidecache_security_desk",
-    "networkUrl": "http://localhost:8082/tidecache_security_desk",
+    "networkUrl": "https://tidecache-desk.vercel.app/tidecache_security_desk",
     "tool": "tidecache_security_desk",
-    "pageUrl": "http://localhost:8082/",
-    "feedUrl": "http://localhost:8082/osv/index.json",
+    "pageUrl": "https://tidecache-desk.vercel.app/",
+    "feedUrl": "https://tidecache-desk.vercel.app/osv/index.json",
     "fictional": true
   }
 ]

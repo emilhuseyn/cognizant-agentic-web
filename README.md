@@ -39,8 +39,17 @@ registries on 16 Nov 2026. Every other package and advisory in the demo is real 
 | lanternmd desk | `<lanternmd base>/lanternmd_security_desk` | `lanternmd_desk`, `advisory_notes` | `get_security_policy`, `check_version`, `get_advisory` (read), `draft_private_report` (write, fills a form) |
 | tidecache desk | `<tidecache base>/tidecache_security_desk` | `tidecache_desk`, `advisory_notes` | same as lanternmd |
 
-Hosted URLs: to be added once hosting is set up. Locally: Triage `http://127.0.0.1:8080/`,
-desks `http://localhost:8081/` and `http://localhost:8082/`.
+Hosted:
+
+- Triage Desk: https://emilhuseyn.github.io/cognizant-agentic-web/ (network
+  `https://emilhuseyn.github.io/cognizant-agentic-web/triage_desk`), with the
+  [Desk Kit](https://emilhuseyn.github.io/cognizant-agentic-web/kit.html) and
+  [Spec Checks](https://emilhuseyn.github.io/cognizant-agentic-web/checks.html)
+- lanternmd desk: https://lanternmd-desk.vercel.app/ (network `https://lanternmd-desk.vercel.app/lanternmd_security_desk`)
+- tidecache desk: https://tidecache-desk.vercel.app/ (network `https://tidecache-desk.vercel.app/tidecache_security_desk`)
+
+Three origins on purpose: a partner on the same origin gets no consent card. Locally: Triage
+`http://127.0.0.1:8080/`, desks `http://localhost:8081/` and `http://localhost:8082/`.
 
 ## How it uses the spec
 
@@ -93,7 +102,7 @@ See `docs/evidence/live-check-2026-11-16.md`.
 
 ## Run it locally
 
-Node 22 or newer. From this folder:
+Node 22 or newer. `sites/` holds the production build; rebuild it for local hosts first. From this folder:
 
 ```bash
 node scripts/build_all.mjs --env local --check

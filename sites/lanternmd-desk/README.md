@@ -5,7 +5,7 @@ generated files: change `desk.json` and rebuild.
 
 lanternmd is a fictional demo project.
 
-- Agent network URL: `http://localhost:8081/lanternmd_security_desk`
+- Agent network URL: `https://lanternmd-desk.vercel.app/lanternmd_security_desk`
 - Network: `lanternmd_security_desk` (front agent `lanternmd_desk`, specialist `advisory_notes`)
 - Site actions: `get_security_policy`, `check_version`, `get_advisory`, `draft_private_report` (`draft_private_report` only fills the form)
 - OSV feed: `osv/index.json`

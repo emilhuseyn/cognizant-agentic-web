@@ -5,7 +5,7 @@ generated files: change `desk.json` and rebuild.
 
 tidecache is a fictional demo project.
 
-- Agent network URL: `http://localhost:8082/tidecache_security_desk`
+- Agent network URL: `https://tidecache-desk.vercel.app/tidecache_security_desk`
 - Network: `tidecache_security_desk` (front agent `tidecache_desk`, specialist `advisory_notes`)
 - Site actions: `get_security_policy`, `check_version`, `get_advisory`, `draft_private_report` (`draft_private_report` only fills the form)
 - OSV feed: `osv/index.json`

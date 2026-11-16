@@ -23,8 +23,8 @@
     },
 
     "link_labels": {
-        "http://localhost:8081/lanternmd_security_desk": "lanternmd maintainers",
-        "http://localhost:8082/tidecache_security_desk": "tidecache maintainers"
+        "https://lanternmd-desk.vercel.app/lanternmd_security_desk": "lanternmd maintainers",
+        "https://tidecache-desk.vercel.app/tidecache_security_desk": "tidecache maintainers"
     },
 
     "commondefs": {
@@ -101,7 +101,7 @@ How to work:
 {cruse_rules}
 {peer_rules}
 """,
-            "tools": ["http://localhost:8081/lanternmd_security_desk","http://localhost:8082/tidecache_security_desk","vex_analyst"]
+            "tools": ["https://lanternmd-desk.vercel.app/lanternmd_security_desk","https://tidecache-desk.vercel.app/tidecache_security_desk","vex_analyst"]
         },
         {
             "name": "vex_analyst",

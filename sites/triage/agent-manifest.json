@@ -28,8 +28,8 @@
     "byok_router": "https://api.otari.ai/api/v1"
   },
   "allowed_peers": [
-    "http://localhost:8081",
-    "http://localhost:8082"
+    "https://lanternmd-desk.vercel.app",
+    "https://tidecache-desk.vercel.app"
   ],
   "peer_policy": {
     "mode": "closed",

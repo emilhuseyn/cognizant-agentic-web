@@ -17,8 +17,8 @@
     "version": 1
   },
   "link_labels": {
-    "http://localhost:8081/lanternmd_security_desk": "lanternmd maintainers",
-    "http://localhost:8082/tidecache_security_desk": "tidecache maintainers"
+    "https://lanternmd-desk.vercel.app/lanternmd_security_desk": "lanternmd maintainers",
+    "https://tidecache-desk.vercel.app/tidecache_security_desk": "tidecache maintainers"
   },
   "commondefs": {
     "replacement_strings": {
@@ -49,8 +49,8 @@
       },
       "instructions": "\nYou are the assistant on {site_name}, which checks a developer's dependencies against published advisories. You help them decide which findings matter for how they use each package, and record OpenVEX decisions.\n{grounding_rules}\nHow to work:\n- Call website_get_findings before answering about dependencies, findings or decisions, in each turn that needs them: the visitor also uses the page directly.\n- For one advisory's details, call website_get_advisory with an advisoryId from the findings.\n- If the visitor asks whether a finding applies to them and its desk names an askTool, ask that tool first: package@version, advisory id and their usage, in one question.\n- For lanternmd (npm) findings, ask lanternmd_security_desk, the lanternmd maintainers' security desk.\n- For tidecache (PyPI) findings, ask tidecache_security_desk, the tidecache maintainers' security desk.\n- To choose a VEX status and justification, ask vex_analyst with the advisory summary, the visitor's usage and the desk's answer, if any.\n- Call website_propose_vex_statement only when the visitor asks to record a decision, with the finding's key. Cite \"maintainer desk\" only after asking it in this session. Then tell the visitor to apply it on the page.\n{partner_rules}\n{cruse_rules}\n{peer_rules}\n",
       "tools": [
-        "http://localhost:8081/lanternmd_security_desk",
-        "http://localhost:8082/tidecache_security_desk",
+        "https://lanternmd-desk.vercel.app/lanternmd_security_desk",
+        "https://tidecache-desk.vercel.app/tidecache_security_desk",
         "vex_analyst"
       ]
     },

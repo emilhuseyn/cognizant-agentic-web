@@ -9,8 +9,8 @@
   "prod": {
     "triage": "https://emilhuseyn.github.io/cognizant-agentic-web/",
     "desks": {
-      "lanternmd": "https://TO-BE-DECIDED-lanternmd.example/",
-      "tidecache": "https://TO-BE-DECIDED-tidecache.example/"
+      "lanternmd": "https://lanternmd-desk.vercel.app/",
+      "tidecache": "https://tidecache-desk.vercel.app/"
     }
   }
 }
