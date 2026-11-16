@@ -7,10 +7,10 @@ checked against the live form when it is opened while logged in.
 
 ## Before the form
 
-- [ ] Sites hosted over HTTPS on three origins (Emil's yes needed: see the open decisions in DESIGN.md).
-- [ ] `config/environments.json` prod URLs filled, `node scripts/build_all.mjs --env prod --check` green,
+- [x] Sites hosted over HTTPS on three origins (16 Nov 2026: GitHub Pages and two Vercel projects).
+- [x] `config/environments.json` prod URLs filled, `node scripts/build_all.mjs --env prod --check` green,
       `check_partner.mjs` on both hosted desk URLs from the hosted Triage origin, tests green.
-- [ ] Repository public (Emil's yes needed), with README, LICENSE and NOTICE.
+- [x] Repository public (16 Nov 2026), with README, LICENSE and NOTICE.
 - [ ] Live run on the hosted sites with a real key (Otari or other), one full flow per sample query.
 - [ ] Video recorded by Emil (VIDEO-SCRIPT.md), uploaded to YouTube as Public.
 - [ ] Screenshots taken from the hosted sites (list below).
@@ -24,7 +24,7 @@ checked against the live form when it is opened while logged in.
 | Thumbnail | `screenshots/01-triage.png` cropped to 3:2 |
 | About the project | Paste DEVPOST.md from "## Inspiration" to the end (Markdown). |
 | Built with (tags) | javascript, html5, css3, open-agentic-web, nsdeploy, neuro-san, hocon, osv, openvex, cvss, node.js |
-| Try it out: links | 1. Triage Desk `<prod triage URL>` 2. lanternmd desk `<prod lanternmd URL>` 3. tidecache desk `<prod tidecache URL>` 4. Desk Kit `<prod triage URL>kit.html` 5. Spec Checks `<prod triage URL>checks.html` 6. GitHub repository `https://github.com/emilhuseyn/cognizant-agentic-web` |
+| Try it out: links | 1. Triage Desk `https://emilhuseyn.github.io/cognizant-agentic-web/` 2. lanternmd desk `https://lanternmd-desk.vercel.app/` 3. tidecache desk `https://tidecache-desk.vercel.app/` 4. Desk Kit `https://emilhuseyn.github.io/cognizant-agentic-web/kit.html` 5. Spec Checks `https://emilhuseyn.github.io/cognizant-agentic-web/checks.html` 6. GitHub repository `https://github.com/emilhuseyn/cognizant-agentic-web` |
 | Video demo link | `<YouTube URL>` (public, under 2 minutes) |
 | Image gallery | the screenshots below, in this order |
 | Team | ekviem1 only |
@@ -33,9 +33,9 @@ checked against the live form when it is opened while logged in.
 
 | Question | Answer |
 |---|---|
-| URL of your public open agentic website | `<prod triage URL>` |
-| Conforming .json file describing the agent network | `<prod triage URL>agent-manifest.json` and `<prod triage URL>triage_desk.network.json` (desks: `<desk URL>agent-manifest.json`) |
-| Runtime that runs the network in the browser | `<prod triage URL>runtime/index.js` (the challenge's runtime, unchanged) |
+| URL of your public open agentic website | `https://emilhuseyn.github.io/cognizant-agentic-web/` |
+| Conforming .json file describing the agent network | `https://emilhuseyn.github.io/cognizant-agentic-web/agent-manifest.json` and `https://emilhuseyn.github.io/cognizant-agentic-web/triage_desk.network.json` (desks: `https://lanternmd-desk.vercel.app/agent-manifest.json`) |
+| Runtime that runs the network in the browser | `https://emilhuseyn.github.io/cognizant-agentic-web/runtime/index.js` (the challenge's runtime, unchanged) |
 | Interface to interact with the network | The "Ask the Triage Desk" chat on each page; other sites call the networks through `bridge/` |
 | Interface to configure LLMs and keys | "AI model settings" in each chat panel (BYOK) |
 | Interaction with the website / other sites / being called | Site actions `website_get_findings`, `website_get_advisory`, `website_propose_vex_statement`; calls both maintainer desks after consent; callable by any agentic site |
