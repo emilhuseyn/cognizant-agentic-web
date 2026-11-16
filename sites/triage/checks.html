@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spec Checks</title>
+<meta name="description" content="Live checks of the Worldwide Agentic Web MVP spec's interoperability rules, run in your browser with this site's runtime.">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="js/checks.js"></script>
+<style>
+  .check { border-top: 1px solid var(--line); padding: 14px 0; }
+  .check:first-child { border-top: 0; padding-top: 0; }
+  .check header { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .check pre { white-space: pre-wrap; background: var(--wash); padding: 10px 12px; border-radius: 8px; margin: 6px 0 0; font-size: 0.85rem; }
+  .verdict { font-weight: 700; font-size: 0.85rem; padding: 2px 10px; border-radius: 6px; background: var(--wash); }
+  .verdict.pass { background: var(--ok-wash); color: var(--ok); }
+  .verdict.fail { background: var(--bad-wash); color: var(--bad); }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <div>
+      <h1>Spec Checks</h1>
+      <p>The Worldwide Agentic Web MVP spec (section 6) asks an implementation to show that bad networks, cycles, budgets and undeclared origins stop with visible errors, and that a partner never gets the visitor's key or private context. These checks run that code here, in your browser.</p>
+    </div>
+    <nav aria-label="Sections"><a href="index.html">Triage Desk</a><a href="kit.html">Desk Kit</a></nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="card" aria-labelledby="checks-h">
+    <h2 id="checks-h">Checks</h2>
+    <p class="small">Each check calls the runtime function that enforces the rule (from this site's <code>runtime/</code>) and prints the runtime's own message. No AI model and no key are needed; the only requests go to this site's own fixture files.</p>
+    <button class="btn" type="button" id="run-checks">Run again</button>
+    <div id="check-list" aria-live="polite"></div>
+  </section>
+  <section class="card" aria-labelledby="also-h">
+    <h2 id="also-h">Shown elsewhere</h2>
+    <ul>
+      <li>Two-agent networks from a plain static host, with a default router and BYOK: every site here (Triage Desk, both maintainer desks).</li>
+      <li>An internal agent call and a grounded capability through registered site actions: <code>website_get_findings</code>, <code>website_check_version</code> and others.</li>
+      <li>Loading an exact named network from a second origin after approval, and the desk server receiving no key: the live check in the repository (<code>docs/evidence/</code>).</li>
+    </ul>
+  </section>
+</main>
+<footer class="site wrap">Part of Maintainer Desk. Static page: no server, no tracking, no third-party scripts.</footer>
+</body>
+</html>

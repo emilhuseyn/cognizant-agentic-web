@@ -1,0 +1,24 @@
+{
+  "metadata": { "description": "Invalid on purpose: a duplicate agent name and a reference to an agent that does not exist." },
+  "llm_config": { "model_name": "alibaba/qwen3.8-flash" },
+  "tools": [
+    {
+      "name": "front",
+      "function": { "description": "Front agent.", "parameters": { "type": "object", "properties": { "request": { "type": "string" } }, "required": ["request"] } },
+      "instructions": "Answer.",
+      "tools": ["helper", "ghost_agent"]
+    },
+    {
+      "name": "helper",
+      "function": { "description": "Helper.", "parameters": { "type": "object", "properties": { "request": { "type": "string" } }, "required": ["request"] } },
+      "instructions": "Help.",
+      "tools": []
+    },
+    {
+      "name": "helper",
+      "function": { "description": "Second agent with the same name." },
+      "instructions": "Duplicate.",
+      "tools": []
+    }
+  ]
+}
