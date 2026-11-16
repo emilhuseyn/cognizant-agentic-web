@@ -1,0 +1,10 @@
+{
+  "networks": [
+    {
+      "name": "tidecache_security_desk"
+    }
+  ],
+  "actions": {
+    "version": 1
+  }
+}

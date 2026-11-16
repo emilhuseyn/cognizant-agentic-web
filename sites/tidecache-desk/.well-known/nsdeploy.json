@@ -1,0 +1,18 @@
+{
+  "protocol": "nsdeploy-link/v1",
+  "exports": [
+    {
+      "network": "tidecache_security_desk",
+      "front_man": "tidecache_desk",
+      "aliases": [
+        "tidecache_security_desk",
+        "tidecache_desk"
+      ],
+      "url": "tidecache_security_desk"
+    }
+  ],
+  "imports": [],
+  "link_updates": {
+    "mode": "browser-local"
+  }
+}

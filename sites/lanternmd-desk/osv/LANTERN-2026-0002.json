@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.6.0",
+  "id": "LANTERN-2026-0002",
+  "published": "2026-10-20T00:00:00Z",
+  "modified": "2026-11-05T00:00:00Z",
+  "summary": "Regular expression denial of service in the emphasis parser",
+  "details": "Long runs of underscores and asterisks without a closing marker made the emphasis parser backtrack, taking seconds per kilobyte. The maxLength option, added in 2.3.0, caps the input length and limits the cost. 3.2.0 replaces the pattern with a linear scanner; 2.4.2 backports it. 1.x is end of life and gets no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "lanternmd"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.2"
+            },
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://lanternmd.example/advisories/LANTERN-2026-0002"
+    }
+  ],
+  "database_specific": {
+    "desk": {
+      "affectedWhen": [
+        "untrusted users can submit Markdown and you render it on a server",
+        "no maxLength is set, or it is above 20000"
+      ],
+      "notAffectedWhen": [
+        "you render only in the visitor's own browser, so a slow page affects only them",
+        "maxLength is set to 20000 or less (2.3.0 and later)",
+        "only trusted authors write the Markdown"
+      ],
+      "workarounds": [
+        "set maxLength to 20000 or less",
+        "render in a worker with a timeout"
+      ],
+      "fixedIn": "3.2.0 and 2.4.2; no fix for 1.x",
+      "vexHint": "not_affected with vulnerable_code_cannot_be_controlled_by_adversary for trusted input; inline_mitigations_already_exist with maxLength 20000 or less"
+    }
+  }
+}

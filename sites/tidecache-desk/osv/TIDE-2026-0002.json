@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.6.0",
+  "id": "TIDE-2026-0002",
+  "published": "2026-10-28T00:00:00Z",
+  "modified": "2026-11-09T00:00:00Z",
+  "summary": "Path traversal in DiskBackend cache keys",
+  "details": "DiskBackend in 2.0.0 to 2.0.2 turned cache keys into file paths without removing ../ segments. An app that lets users choose part of a cache key could read or overwrite files outside the cache folder that the app's user can write. MemoryBackend and RedisBackend are not affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tidecache"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://tidecache.example/advisories/TIDE-2026-0002"
+    }
+  ],
+  "database_specific": {
+    "desk": {
+      "affectedWhen": [
+        "DiskBackend is in use",
+        "any part of a cache key comes from the request, such as a query parameter or a path segment"
+      ],
+      "notAffectedWhen": [
+        "MemoryBackend or RedisBackend is in use (the default is MemoryBackend)",
+        "cache keys are hashed with hash_keys=True",
+        "keys are built only from fixed strings"
+      ],
+      "workarounds": [
+        "set hash_keys=True",
+        "switch to MemoryBackend or RedisBackend"
+      ],
+      "fixedIn": "2.0.3",
+      "vexHint": "not_affected with vulnerable_code_not_in_execute_path when another backend is used; inline_mitigations_already_exist with hash_keys=True"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "project": "tidecache",
+  "ecosystem": "PyPI",
+  "records": [
+    {
+      "id": "TIDE-2026-0001",
+      "modified": "2026-09-01T00:00:00Z",
+      "url": "TIDE-2026-0001.json"
+    },
+    {
+      "id": "TIDE-2026-0002",
+      "modified": "2026-11-09T00:00:00Z",
+      "url": "TIDE-2026-0002.json"
+    }
+  ]
+}

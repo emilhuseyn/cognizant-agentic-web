@@ -1,0 +1,12 @@
+{
+  "name": "harbor-notes",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Demo app for the Triage Desk: a small blog with a Markdown renderer.",
+  "dependencies": {
+    "express": "4.17.1",
+    "lanternmd": "3.0.2",
+    "lodash": "4.17.15",
+    "minimist": "1.2.5"
+  }
+}

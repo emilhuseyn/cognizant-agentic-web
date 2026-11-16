@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triage Desk</title>
+<meta name="description" content="Check your dependencies against published advisories, ask the maintainers' own security desks whether a finding applies to you, and export OpenVEX decisions.">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="js/triage-page.js"></script>
+<script type="module" src="site.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <div>
+      <h1>Triage Desk</h1>
+      <p>Your scanner says a dependency is vulnerable. Is your app affected? Check your dependencies, ask the package's own maintainers through their security desk, and record the answer as OpenVEX.</p>
+    </div>
+    <nav aria-label="Sections"><a href="#findings">Findings</a><a href="#decisions">Decisions</a><a href="#assistant">Ask</a><a href="kit.html">Desk Kit</a><a href="#how">How it works</a></nav>
+  </div>
+</header>
+<main class="wrap">
+  <section id="input" class="card" aria-labelledby="input-h">
+    <h2 id="input-h">Your dependencies</h2>
+    <p>Paste your files with exact versions. Only package names and versions leave this page, to OSV.dev and to the maintainer desks listed below. The demo app is loaded so you can try everything at once.</p>
+    <form id="input-form">
+      <label for="app-name">App name (goes into the VEX file)</label>
+      <input id="app-name" type="text" maxlength="80" autocomplete="off">
+      <div class="cols">
+        <div><label for="npm-text">npm: package.json or package-lock.json</label><textarea id="npm-text" spellcheck="false"></textarea></div>
+        <div><label for="pypi-text">PyPI: requirements.txt (pinned with ==)</label><textarea id="pypi-text" spellcheck="false"></textarea></div>
+      </div>
+      <button class="btn" type="submit">Check dependencies</button>
+      <button class="btn secondary" type="button" id="load-demo">Load the demo app</button>
+      <button class="btn secondary" type="button" id="clear-input">Clear</button>
+    </form>
+    <p id="check-status" class="status" role="status" aria-live="polite"></p>
+    <ul id="input-warnings" class="small"></ul>
+  </section>
+
+  <section id="findings" class="card" aria-labelledby="findings-h">
+    <h2 id="findings-h">Findings</h2>
+    <p class="small">Sorted by CVSS base score. A desk tag means the package's maintainers publish a security desk the assistant can ask. Pick a decision by hand, or ask the assistant to propose one.</p>
+    <div class="table-scroll">
+      <table class="grid">
+        <thead><tr><th>Severity</th><th>Advisory</th><th>Package</th><th>Fixed in</th><th>Source</th><th>Decision</th></tr></thead>
+        <tbody id="finding-rows"></tbody>
+      </table>
+    </div>
+    <p id="findings-empty" class="small">No findings yet.</p>
+  </section>
+
+  <section id="proposals" class="card attention" aria-labelledby="proposals-h" hidden>
+    <h2 id="proposals-h">Proposed decisions</h2>
+    <p class="small">The assistant proposed these. Nothing is recorded until you apply it.</p>
+    <div id="proposal-list"></div>
+  </section>
+
+  <section id="decisions" class="card" aria-labelledby="decisions-h">
+    <h2 id="decisions-h">Decisions (OpenVEX)</h2>
+    <div class="table-scroll">
+      <table class="grid">
+        <thead><tr><th>Advisory</th><th>Package</th><th>Status</th><th>Justification or action</th><th>Evidence from</th></tr></thead>
+        <tbody id="decision-rows"></tbody>
+      </table>
+    </div>
+    <p id="decisions-empty" class="small">No decisions yet.</p>
+    <div class="export-row">
+      <div><label for="vex-author">Author</label><input id="vex-author" type="text" maxlength="120" placeholder="Your name or team" autocomplete="off"></div>
+      <button class="btn" type="button" id="export-vex" disabled>Download OpenVEX</button>
+    </div>
+  </section>
+
+  <section id="assistant" class="assistant card" aria-labelledby="assistant-heading" data-greeting="I can explain the findings above, ask a package's maintainers through their security desk whether a finding applies to how you use it, and propose a VEX decision for you to apply. Which finding first?">
+    <h2 id="assistant-heading">Ask the Triage Desk</h2>
+    <p>Describe how you use a package. The assistant reads the findings, asks the maintainers' desk when one exists (you approve each contact), and proposes a decision you apply on the page.</p>
+    <p class="assistant-note small">Your messages and the findings it reads go to the AI provider you choose in the settings below, with your own key. A maintainer desk you allow runs in this browser on that same key; the desk never receives the key.</p>
+    <p id="assistant-status" role="status">Connecting the assistant… If this message stays, the assistant could not load. You can still use the page directly.</p>
+    <div id="agent-app">
+      <div data-ns-slot="header"></div>
+      <div class="assistant-panels">
+        <div data-ns-slot="chat"></div>
+        <div data-ns-slot="agents"></div>
+      </div>
+      <div data-ns-slot="settings"></div>
+    </div>
+  </section>
+
+  <section id="contacts" class="card" aria-labelledby="contacts-h">
+    <h2 id="contacts-h">Who this page contacted</h2>
+    <p class="small">Every origin this page or its assistant reached in this visit, and why. Your AI provider is contacted on each assistant turn and is not listed here.</p>
+    <div class="table-scroll">
+      <table class="grid">
+        <thead><tr><th>Origin</th><th>Why</th><th>Requests</th></tr></thead>
+        <tbody id="contact-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="how" class="card" aria-labelledby="how-h">
+    <h2 id="how-h">How it works</h2>
+    <ol>
+      <li>The page reads your dependency files and asks OSV.dev which advisories affect each exact version. For packages that publish a maintainer desk, it reads the desk's own OSV feed instead.</li>
+      <li>A maintainer desk is a small static website on the project's own origin. It publishes an agent network that carries the maintainers' notes: when each advisory applies, when it does not, fixes and workarounds.</li>
+      <li>When you ask, this page's assistant loads that desk's network into your browser, after a card that names the desk's origin. It runs on your key; the desk runs no server and pays for nothing.</li>
+      <li>The assistant proposes a VEX decision that cites its source. You apply it, and download an OpenVEX file that other tools read.</li>
+    </ol>
+    <p>Maintainers: make your own desk with the <a href="kit.html">Desk Kit</a>. Demo desks: <span id="desk-links"></span>.</p>
+  </section>
+</main>
+<footer class="site wrap">Triage Desk is a static site: no server, no tracking, no third-party scripts. lanternmd and tidecache are fictional demo projects; every other package and advisory is real data from OSV.dev.</footer>
+</body>
+</html>

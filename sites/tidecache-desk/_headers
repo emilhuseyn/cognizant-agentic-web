@@ -1,0 +1,23 @@
+/agent-manifest.json
+  Access-Control-Allow-Origin: *
+/tidecache_security_desk.network.json
+  Access-Control-Allow-Origin: *
+/tidecache_security_desk.hocon
+  Access-Control-Allow-Origin: *
+/links.json
+  Access-Control-Allow-Origin: *
+/agent-mcp.json
+  Access-Control-Allow-Origin: *
+/desk-data.json
+  Access-Control-Allow-Origin: *
+/.well-known/nsdeploy.json
+  Access-Control-Allow-Origin: *
+/.well-known/nsdeploy-agent.json
+  Access-Control-Allow-Origin: *
+/osv/*
+  Access-Control-Allow-Origin: *
+/runtime/sandbox-worker.js
+  Content-Security-Policy: default-src 'none'; script-src blob:; connect-src 'none'; worker-src 'none'
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer

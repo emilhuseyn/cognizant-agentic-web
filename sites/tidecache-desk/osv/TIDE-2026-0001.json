@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.6.0",
+  "id": "TIDE-2026-0001",
+  "published": "2026-08-11T00:00:00Z",
+  "modified": "2026-09-01T00:00:00Z",
+  "summary": "Cache poisoning through the unkeyed X-Forwarded-Host header",
+  "details": "Before 1.8.0 the default cache key ignored X-Forwarded-Host. An app that builds absolute links from that header could cache a page with an attacker's host in its links and serve it to everyone. 1.8.0 adds the header to the default key when trust_forwarded_headers is on.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tidecache"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://tidecache.example/advisories/TIDE-2026-0001"
+    }
+  ],
+  "database_specific": {
+    "desk": {
+      "affectedWhen": [
+        "trust_forwarded_headers is on, or a proxy passes X-Forwarded-Host through",
+        "the app builds absolute URLs from the request host",
+        "cached pages are shared between users"
+      ],
+      "notAffectedWhen": [
+        "the app builds links from a fixed setting, not from the request",
+        "the proxy overwrites X-Forwarded-Host",
+        "key_headers already includes Host and X-Forwarded-Host"
+      ],
+      "workarounds": [
+        "add Host and X-Forwarded-Host to key_headers",
+        "build absolute links from configuration"
+      ],
+      "fixedIn": "1.8.0",
+      "vexHint": "not_affected with vulnerable_code_cannot_be_controlled_by_adversary when the proxy overwrites the header; inline_mitigations_already_exist when key_headers covers it"
+    }
+  }
+}

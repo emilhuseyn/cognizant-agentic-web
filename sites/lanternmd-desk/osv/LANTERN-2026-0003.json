@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.6.0",
+  "id": "LANTERN-2026-0003",
+  "published": "2026-11-03T00:00:00Z",
+  "modified": "2026-11-03T00:00:00Z",
+  "summary": "Prototype pollution through front matter keys",
+  "details": "With frontMatter: true, a front matter key named __proto__ or constructor.prototype was merged into the options object, so a document could change defaults for later renders in the same process. Only 3.0.0 to 3.0.4 parse front matter this way.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "lanternmd"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://lanternmd.example/advisories/LANTERN-2026-0003"
+    }
+  ],
+  "database_specific": {
+    "desk": {
+      "affectedWhen": [
+        "frontMatter: true is set",
+        "the documents come from people you do not trust",
+        "one process renders documents from several users"
+      ],
+      "notAffectedWhen": [
+        "frontMatter is false or unset (the default)",
+        "every render runs in a fresh process or worker"
+      ],
+      "workarounds": [
+        "set frontMatter: false and parse front matter yourself with a safe parser"
+      ],
+      "fixedIn": "3.0.5",
+      "vexHint": "not_affected with vulnerable_code_not_in_execute_path when frontMatter is off"
+    }
+  }
+}

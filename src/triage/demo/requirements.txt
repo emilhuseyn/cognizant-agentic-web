@@ -1,0 +1,4 @@
+# harbor-notes worker (demo app for the Triage Desk)
+tidecache==2.0.1
+jinja2==2.11.2
+requests==2.25.0

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.6.0",
+  "id": "LANTERN-2026-0001",
+  "published": "2026-09-02T00:00:00Z",
+  "modified": "2026-10-14T00:00:00Z",
+  "summary": "Cross-site scripting through link titles when html is enabled",
+  "details": "When the html option is true, lanternmd copied the title of a Markdown link into the title attribute without escaping quotes. Input such as [x](https://a.example \"a\" onmouseover=\"alert(1)\") produced an extra attribute. Rendering with html: false (the default) escapes titles and is not affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "lanternmd"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.4.1"
+            },
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://lanternmd.example/advisories/LANTERN-2026-0001"
+    }
+  ],
+  "database_specific": {
+    "desk": {
+      "affectedWhen": [
+        "html: true is set",
+        "the Markdown comes from people you do not trust"
+      ],
+      "notAffectedWhen": [
+        "html is false or unset (the default)",
+        "the rendered HTML goes through a sanitizer such as DOMPurify before it reaches a page",
+        "only your own authors write the Markdown"
+      ],
+      "workarounds": [
+        "set html: false",
+        "sanitize the output"
+      ],
+      "fixedIn": "3.1.2 and 2.4.1",
+      "vexHint": "not_affected with vulnerable_code_not_in_execute_path when html is off; inline_mitigations_already_exist when output is sanitized"
+    }
+  }
+}

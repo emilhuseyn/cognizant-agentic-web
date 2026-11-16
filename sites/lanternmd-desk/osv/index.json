@@ -1,0 +1,21 @@
+{
+  "project": "lanternmd",
+  "ecosystem": "npm",
+  "records": [
+    {
+      "id": "LANTERN-2026-0001",
+      "modified": "2026-10-14T00:00:00Z",
+      "url": "LANTERN-2026-0001.json"
+    },
+    {
+      "id": "LANTERN-2026-0002",
+      "modified": "2026-11-05T00:00:00Z",
+      "url": "LANTERN-2026-0002.json"
+    },
+    {
+      "id": "LANTERN-2026-0003",
+      "modified": "2026-11-03T00:00:00Z",
+      "url": "LANTERN-2026-0003.json"
+    }
+  ]
+}

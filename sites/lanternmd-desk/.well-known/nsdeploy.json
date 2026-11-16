@@ -1,0 +1,18 @@
+{
+  "protocol": "nsdeploy-link/v1",
+  "exports": [
+    {
+      "network": "lanternmd_security_desk",
+      "front_man": "lanternmd_desk",
+      "aliases": [
+        "lanternmd_security_desk",
+        "lanternmd_desk"
+      ],
+      "url": "lanternmd_security_desk"
+    }
+  ],
+  "imports": [],
+  "link_updates": {
+    "mode": "browser-local"
+  }
+}

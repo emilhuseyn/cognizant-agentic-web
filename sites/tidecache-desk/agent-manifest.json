@@ -1,0 +1,90 @@
+{
+  "brand": "tidecache security desk",
+  "networks": [
+    {
+      "name": "tidecache_security_desk",
+      "front_man": "tidecache_desk",
+      "hocon": "./tidecache_security_desk.network.json",
+      "description": "Ask the tidecache maintainers' security desk whether an advisory affects your version and setup.",
+      "tags": [
+        "agentified-website",
+        "security-desk",
+        "maintainer-desk",
+        "osv",
+        "vex"
+      ],
+      "sample_queries": [
+        "Is tidecache 2.0.1 affected by any published advisory?",
+        "We run tidecache 2.0.1 with RedisBackend. Does TIDE-2026-0002 apply to us?",
+        "Which tidecache versions still get security fixes?",
+        "I think tidecache 2.0.3 leaks cached pages between users. Help me report it privately.",
+        "Can you upgrade tidecache in my requirements file for me?"
+      ]
+    }
+  ],
+  "llm_router": {
+    "base_url": "https://api.otari.ai/api/v1",
+    "mock": false,
+    "byok_router": "https://api.otari.ai/api/v1"
+  },
+  "allowed_peers": [],
+  "peer_policy": {
+    "mode": "closed",
+    "deny_origins": [],
+    "note": "Local agents and page-local actions only. This desk calls no other site."
+  },
+  "agent_mcp": {
+    "protocol": "nsdeploy-agent-mcp/v1",
+    "network": "tidecache_security_desk",
+    "front_man": "tidecache_desk",
+    "available": false,
+    "reason": "This is a static bundle; a public MCP facade requires an application host."
+  },
+  "theme": {
+    "primary": "#0f5e73"
+  },
+  "linking": {
+    "protocol": "nsdeploy-link/v1",
+    "exports": [
+      {
+        "network": "tidecache_security_desk",
+        "front_man": "tidecache_desk",
+        "aliases": [
+          "tidecache_security_desk",
+          "tidecache_desk"
+        ],
+        "url": "tidecache_security_desk"
+      }
+    ],
+    "imports": [],
+    "link_updates": {
+      "mode": "browser-local"
+    }
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": false,
+    "direct_byok": true,
+    "direct_mcp_requires_cors": true,
+    "public_mcp_facade": false
+  },
+  "actions": {
+    "version": 1,
+    "module": "./site-actions.js",
+    "bridge": "./bridge/action-bridge.html",
+    "agentTools": [
+      "get_security_policy",
+      "check_version",
+      "get_advisory",
+      "draft_private_report"
+    ]
+  },
+  "maintainer_desk": {
+    "version": 1,
+    "project": "tidecache",
+    "ecosystem": "PyPI",
+    "osv_feed": "./osv/index.json",
+    "fictional": true
+  }
+}

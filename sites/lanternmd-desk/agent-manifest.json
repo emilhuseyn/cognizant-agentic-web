@@ -1,0 +1,90 @@
+{
+  "brand": "lanternmd security desk",
+  "networks": [
+    {
+      "name": "lanternmd_security_desk",
+      "front_man": "lanternmd_desk",
+      "hocon": "./lanternmd_security_desk.network.json",
+      "description": "Ask the lanternmd maintainers' security desk whether an advisory affects your version and setup.",
+      "tags": [
+        "agentified-website",
+        "security-desk",
+        "maintainer-desk",
+        "osv",
+        "vex"
+      ],
+      "sample_queries": [
+        "Is lanternmd 3.0.2 affected by any published advisory?",
+        "I use lanternmd 3.0.4 with html left at its default. Does LANTERN-2026-0001 apply to me?",
+        "Which lanternmd versions still get security fixes?",
+        "I found a crash in lanternmd 3.2.0 with deeply nested lists. Help me report it privately.",
+        "Can you scan my project's source code for lanternmd problems?"
+      ]
+    }
+  ],
+  "llm_router": {
+    "base_url": "https://api.otari.ai/api/v1",
+    "mock": false,
+    "byok_router": "https://api.otari.ai/api/v1"
+  },
+  "allowed_peers": [],
+  "peer_policy": {
+    "mode": "closed",
+    "deny_origins": [],
+    "note": "Local agents and page-local actions only. This desk calls no other site."
+  },
+  "agent_mcp": {
+    "protocol": "nsdeploy-agent-mcp/v1",
+    "network": "lanternmd_security_desk",
+    "front_man": "lanternmd_desk",
+    "available": false,
+    "reason": "This is a static bundle; a public MCP facade requires an application host."
+  },
+  "theme": {
+    "primary": "#5b3fa8"
+  },
+  "linking": {
+    "protocol": "nsdeploy-link/v1",
+    "exports": [
+      {
+        "network": "lanternmd_security_desk",
+        "front_man": "lanternmd_desk",
+        "aliases": [
+          "lanternmd_security_desk",
+          "lanternmd_desk"
+        ],
+        "url": "lanternmd_security_desk"
+      }
+    ],
+    "imports": [],
+    "link_updates": {
+      "mode": "browser-local"
+    }
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": false,
+    "direct_byok": true,
+    "direct_mcp_requires_cors": true,
+    "public_mcp_facade": false
+  },
+  "actions": {
+    "version": 1,
+    "module": "./site-actions.js",
+    "bridge": "./bridge/action-bridge.html",
+    "agentTools": [
+      "get_security_policy",
+      "check_version",
+      "get_advisory",
+      "draft_private_report"
+    ]
+  },
+  "maintainer_desk": {
+    "version": 1,
+    "project": "lanternmd",
+    "ecosystem": "npm",
+    "osv_feed": "./osv/index.json",
+    "fictional": true
+  }
+}

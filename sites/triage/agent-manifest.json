@@ -1,0 +1,84 @@
+{
+  "brand": "Triage Desk",
+  "networks": [
+    {
+      "name": "triage_desk",
+      "front_man": "triage_desk",
+      "hocon": "./triage_desk.network.json",
+      "description": "Triage the vulnerability findings in a dependency list, asking the maintainers' own security desks, and record OpenVEX decisions.",
+      "tags": [
+        "agentified-website",
+        "vulnerability-triage",
+        "openvex",
+        "osv",
+        "maintainer-desk"
+      ],
+      "sample_queries": [
+        "Which findings in the demo app are critical or high, and what fixes them?",
+        "We render lanternmd only from our own authors' posts, with html left off. Does LANTERN-2026-0001 apply to us?",
+        "Ask the tidecache maintainers whether TIDE-2026-0002 matters if we only use RedisBackend.",
+        "Propose a decision for the minimist finding: affected, we will upgrade to the fixed version.",
+        "Can you open a pull request that upgrades lodash for me?"
+      ]
+    }
+  ],
+  "llm_router": {
+    "base_url": "https://api.otari.ai/api/v1",
+    "mock": false,
+    "byok_router": "https://api.otari.ai/api/v1"
+  },
+  "allowed_peers": [
+    "http://localhost:8081",
+    "http://localhost:8082"
+  ],
+  "peer_policy": {
+    "mode": "closed",
+    "deny_origins": [],
+    "note": "Calls the maintainer desks in allowed_peers, each only after the visitor agrees on a consent card. Requests carry a package, a version, an advisory id and a usage question; never names, emails or code."
+  },
+  "agent_mcp": {
+    "protocol": "nsdeploy-agent-mcp/v1",
+    "network": "triage_desk",
+    "front_man": "triage_desk",
+    "available": false,
+    "reason": "This is a static bundle; a public MCP facade requires an application host."
+  },
+  "theme": {
+    "primary": "#1f4f99"
+  },
+  "linking": {
+    "protocol": "nsdeploy-link/v1",
+    "exports": [
+      {
+        "network": "triage_desk",
+        "front_man": "triage_desk",
+        "aliases": [
+          "triage_desk"
+        ],
+        "url": "triage_desk"
+      }
+    ],
+    "imports": [],
+    "link_updates": {
+      "mode": "browser-local"
+    }
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": false,
+    "direct_byok": true,
+    "direct_mcp_requires_cors": true,
+    "public_mcp_facade": false
+  },
+  "actions": {
+    "version": 1,
+    "module": "./site-actions.js",
+    "bridge": "./bridge/action-bridge.html",
+    "agentTools": [
+      "get_findings",
+      "get_advisory",
+      "propose_vex_statement"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "local": {
+    "triage": "http://127.0.0.1:8080/",
+    "desks": {
+      "lanternmd": "http://localhost:8081/",
+      "tidecache": "http://localhost:8082/"
+    }
+  },
+  "prod": {
+    "triage": "https://emilhuseyn.github.io/cognizant-agentic-web/",
+    "desks": {
+      "lanternmd": "https://TO-BE-DECIDED-lanternmd.example/",
+      "tidecache": "https://TO-BE-DECIDED-tidecache.example/"
+    }
+  }
+}
