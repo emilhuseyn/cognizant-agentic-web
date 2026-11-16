@@ -243,21 +243,23 @@ export class TriagePage {
       version: this.version,
       checkedAt: this.checkedAt,
       dependencies: this.dependencies.length,
-      skippedOrApproximate: this.warnings.concat(this.dependencies.filter(d => d.note && d.note !== "transitive").map(d => `${d.name}: ${d.note}`)).slice(0, 20),
-      findings: this.findings.map(f => ({
-        key: f.key,
-        advisoryId: f.advisoryId,
-        aliases: f.aliases,
-        package: `${f.package}@${f.version}`,
-        ecosystem: f.ecosystem,
-        direct: f.direct,
-        severity: f.score !== null ? `${f.rating} ${f.score.toFixed(1)}` : f.rating,
-        summary: f.summary,
-        fixedIn: f.fixedIn,
-        source: f.source,
-        desk: f.desk ? { askTool: f.desk.tool, name: f.desk.label, page: f.desk.page } : null,
-        decision: this.decisions.get(f.key)?.status || "none",
-      })),
+      notes: this.warnings.concat(this.dependencies.filter(d => d.note && d.note !== "transitive").map(d => `${d.name}: ${d.note}`)).slice(0, 10),
+      // Kept short: every model call pays for this text on the visitor's key.
+      findings: this.findings.map(f => {
+        const row = {
+          key: f.key,
+          advisoryId: f.advisoryId,
+          package: `${f.ecosystem}/${f.package}@${f.version}`,
+          severity: f.score !== null ? `${f.rating} ${f.score.toFixed(1)}` : f.rating,
+          summary: f.summary.length > 90 ? `${f.summary.slice(0, 89)}…` : f.summary,
+          fixedIn: f.fixedIn.slice(-2),
+          decision: this.decisions.get(f.key)?.status || "none",
+        };
+        if (f.aliases.length) row.aka = f.aliases.slice(0, 2);
+        if (!f.direct) row.transitive = true;
+        if (f.desk) row.desk = { askTool: f.desk.tool, name: f.desk.label, page: f.desk.page };
+        return row;
+      }),
       pendingProposals: this.proposals.map(p => ({ proposalId: p.id, finding: p.findingKey, status: p.status })),
       maintainerDesks: this.desks.map(d => ({ package: `${d.ecosystem}/${d.project}`, askTool: d.tool, name: d.label, page: d.pageUrl })),
       desksAskedThisSession: [...this.peerAnswers.keys()],
@@ -368,7 +370,8 @@ export class TriagePage {
   }
 
   async exportVex(author) {
-    const productId = `pkg:generic/${encodeURIComponent(this.appName || "app")}`;
+    const name = (this.appName || "app").replace(/\s*\(.*\)\s*$/, "").trim() || "app";
+    const productId = `pkg:generic/${encodeURIComponent(name)}`;
     const statements = this.findings
       .filter(f => this.decisions.has(f.key))
       .map(f => Vex.statement(f, this.decisions.get(f.key), productId));
