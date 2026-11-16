@@ -1,0 +1,5 @@
+Maintainer Desk
+Copyright 2026 Emil Huseynov
+
+Includes the agentify-website skill and nsdeploy browser runtime from
+https://github.com/cognizant-ai-labs/agentic-web (Apache License 2.0), in tools/agentify-website/.
