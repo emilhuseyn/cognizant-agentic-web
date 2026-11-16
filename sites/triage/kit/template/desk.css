@@ -1,0 +1,15 @@
+/* Maintainer desk page. */
+.advisory { border-top: 1px solid var(--line); padding: 16px 0 6px; }
+.advisory:first-child { border-top: 0; padding-top: 0; }
+.advisory header { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; justify-content: space-between; }
+.advisory dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 8px 0; }
+.advisory dt { color: var(--muted); }
+.advisory dd { margin: 0; font-family: var(--mono); font-size: 0.9rem; }
+.advisory ul { margin: 0 0 0.6em; padding-left: 1.2em; }
+.check-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+.check-row input { max-width: 220px; }
+.check-row .btn { margin-top: 0; }
+.pub dd { font-family: var(--mono); font-size: 0.86rem; word-break: break-all; margin: 0 0 8px; }
+.pub dt { font-weight: 600; }
+#report-note:empty { display: none; }
+#report-note { background: var(--warn-wash); padding: 8px 12px; border-radius: 8px; }

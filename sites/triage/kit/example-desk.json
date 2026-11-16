@@ -1,0 +1,243 @@
+{
+  "project": "lanternmd",
+  "network": "lanternmd_security_desk",
+  "ecosystem": "npm",
+  "fictional": true,
+  "tagline": "A small Markdown-to-HTML renderer for Node.js and browsers.",
+  "maintainers": "the lanternmd maintainers",
+  "theme": "#5b3fa8",
+  "exampleVersion": "3.0.2",
+  "sampleQueries": [
+    "Is lanternmd 3.0.2 affected by any published advisory?",
+    "I use lanternmd 3.0.4 with html left at its default. Does LANTERN-2026-0001 apply to me?",
+    "Which lanternmd versions still get security fixes?",
+    "I found a crash in lanternmd 3.2.0 with deeply nested lists. Help me report it privately.",
+    "Can you scan my project's source code for lanternmd problems?"
+  ],
+  "report": {
+    "email": "security@lanternmd.example",
+    "acknowledgeDays": 3,
+    "disclosureDays": 90,
+    "include": [
+      "affected version",
+      "a minimal Markdown input that shows the problem",
+      "the render options you use",
+      "the impact you expect"
+    ]
+  },
+  "supported": [
+    {
+      "line": "3.x",
+      "status": "supported",
+      "note": "Current line. All fixes land here first."
+    },
+    {
+      "line": "2.x",
+      "status": "security fixes only",
+      "note": "Security fixes until 30 June 2027."
+    },
+    {
+      "line": "1.x",
+      "status": "end of life",
+      "note": "No fixes. Upgrade to 3.x."
+    }
+  ],
+  "outOfScope": [
+    "XSS in HTML you pass through with html: true and do not sanitize, when no advisory names it",
+    "slow rendering of documents larger than the maxLength you set",
+    "bugs in third-party lanternmd plugins"
+  ],
+  "advisories": [
+    {
+      "schema_version": "1.6.0",
+      "id": "LANTERN-2026-0001",
+      "published": "2026-09-02T00:00:00Z",
+      "modified": "2026-10-14T00:00:00Z",
+      "summary": "Cross-site scripting through link titles when html is enabled",
+      "details": "When the html option is true, lanternmd copied the title of a Markdown link into the title attribute without escaping quotes. Input such as [x](https://a.example \"a\" onmouseover=\"alert(1)\") produced an extra attribute. Rendering with html: false (the default) escapes titles and is not affected.",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ],
+      "affected": [
+        {
+          "package": {
+            "ecosystem": "npm",
+            "name": "lanternmd"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "2.0.0"
+                },
+                {
+                  "fixed": "2.4.1"
+                },
+                {
+                  "introduced": "3.0.0"
+                },
+                {
+                  "fixed": "3.1.2"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "type": "WEB",
+          "url": "https://lanternmd.example/advisories/LANTERN-2026-0001"
+        }
+      ],
+      "database_specific": {
+        "desk": {
+          "affectedWhen": [
+            "html: true is set",
+            "the Markdown comes from people you do not trust"
+          ],
+          "notAffectedWhen": [
+            "html is false or unset (the default)",
+            "the rendered HTML goes through a sanitizer such as DOMPurify before it reaches a page",
+            "only your own authors write the Markdown"
+          ],
+          "workarounds": [
+            "set html: false",
+            "sanitize the output"
+          ],
+          "fixedIn": "3.1.2 and 2.4.1",
+          "vexHint": "not_affected with vulnerable_code_not_in_execute_path when html is off; inline_mitigations_already_exist when output is sanitized"
+        }
+      }
+    },
+    {
+      "schema_version": "1.6.0",
+      "id": "LANTERN-2026-0002",
+      "published": "2026-10-20T00:00:00Z",
+      "modified": "2026-11-05T00:00:00Z",
+      "summary": "Regular expression denial of service in the emphasis parser",
+      "details": "Long runs of underscores and asterisks without a closing marker made the emphasis parser backtrack, taking seconds per kilobyte. The maxLength option, added in 2.3.0, caps the input length and limits the cost. 3.2.0 replaces the pattern with a linear scanner; 2.4.2 backports it. 1.x is end of life and gets no fix.",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+      ],
+      "affected": [
+        {
+          "package": {
+            "ecosystem": "npm",
+            "name": "lanternmd"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "2.4.2"
+                },
+                {
+                  "introduced": "3.0.0"
+                },
+                {
+                  "fixed": "3.2.0"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "type": "WEB",
+          "url": "https://lanternmd.example/advisories/LANTERN-2026-0002"
+        }
+      ],
+      "database_specific": {
+        "desk": {
+          "affectedWhen": [
+            "untrusted users can submit Markdown and you render it on a server",
+            "no maxLength is set, or it is above 20000"
+          ],
+          "notAffectedWhen": [
+            "you render only in the visitor's own browser, so a slow page affects only them",
+            "maxLength is set to 20000 or less (2.3.0 and later)",
+            "only trusted authors write the Markdown"
+          ],
+          "workarounds": [
+            "set maxLength to 20000 or less",
+            "render in a worker with a timeout"
+          ],
+          "fixedIn": "3.2.0 and 2.4.2; no fix for 1.x",
+          "vexHint": "not_affected with vulnerable_code_cannot_be_controlled_by_adversary for trusted input; inline_mitigations_already_exist with maxLength 20000 or less"
+        }
+      }
+    },
+    {
+      "schema_version": "1.6.0",
+      "id": "LANTERN-2026-0003",
+      "published": "2026-11-03T00:00:00Z",
+      "modified": "2026-11-03T00:00:00Z",
+      "summary": "Prototype pollution through front matter keys",
+      "details": "With frontMatter: true, a front matter key named __proto__ or constructor.prototype was merged into the options object, so a document could change defaults for later renders in the same process. Only 3.0.0 to 3.0.4 parse front matter this way.",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+        }
+      ],
+      "affected": [
+        {
+          "package": {
+            "ecosystem": "npm",
+            "name": "lanternmd"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "3.0.0"
+                },
+                {
+                  "fixed": "3.0.5"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "type": "WEB",
+          "url": "https://lanternmd.example/advisories/LANTERN-2026-0003"
+        }
+      ],
+      "database_specific": {
+        "desk": {
+          "affectedWhen": [
+            "frontMatter: true is set",
+            "the documents come from people you do not trust",
+            "one process renders documents from several users"
+          ],
+          "notAffectedWhen": [
+            "frontMatter is false or unset (the default)",
+            "every render runs in a fresh process or worker"
+          ],
+          "workarounds": [
+            "set frontMatter: false and parse front matter yourself with a safe parser"
+          ],
+          "fixedIn": "3.0.5",
+          "vexHint": "not_affected with vulnerable_code_not_in_execute_path when frontMatter is off"
+        }
+      }
+    }
+  ]
+}

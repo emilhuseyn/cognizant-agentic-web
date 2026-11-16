@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desk Kit</title>
+<meta name="description" content="Make a security desk for your open source project: a static open agentic website that answers whether your advisories affect a user's setup.">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="kit.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <div>
+      <h1>Desk Kit</h1>
+      <p>Make a security desk for your project: your policy, your advisories and when they apply, and an assistant that users and other agentic websites can ask. No server, and you pay for no model calls.</p>
+    </div>
+    <nav aria-label="Sections"><a href="index.html">Triage Desk</a><a href="#format">desk.json format</a></nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="card" aria-labelledby="kit-h">
+    <h2 id="kit-h">Build your desk</h2>
+    <p>Paste your <code>desk.json</code> and the address where you will host it. The kit checks it, builds the agent network with the runtime's own parser and validator, and gives you a zip to unzip on any static host. Nothing leaves this page.</p>
+    <label for="desk-url">Where you will host the desk</label>
+    <input id="desk-url" type="text" autocomplete="off" spellcheck="false">
+    <label for="desk-json">desk.json</label>
+    <textarea id="desk-json" spellcheck="false" style="min-height: 360px"></textarea>
+    <button class="btn" type="button" id="kit-build">Build and download the zip</button>
+    <button class="btn secondary" type="button" id="kit-validate">Check only</button>
+    <button class="btn secondary" type="button" id="kit-example">Load the example</button>
+    <div id="kit-result" role="status" aria-live="polite"></div>
+  </section>
+
+  <section id="format" class="card" aria-labelledby="fmt-h">
+    <h2 id="fmt-h">desk.json format</h2>
+    <ul>
+      <li><code>project</code>, <code>ecosystem</code> (<code>npm</code> or <code>PyPI</code>), <code>network</code> (such as <code>mypkg_security_desk</code>), <code>tagline</code>, <code>maintainers</code>, <code>theme</code> (a dark color).</li>
+      <li><code>report</code>: your private security contact, days to acknowledge, days to disclosure, what to include.</li>
+      <li><code>supported</code>: version lines such as <code>3.x</code> or <code>1.7.x and older</code>, each with a status and a note.</li>
+      <li><code>advisories</code>: OSV records (schema 1.6). Add <code>database_specific.desk</code> with <code>affectedWhen</code>, <code>notAffectedWhen</code>, <code>workarounds</code>, <code>fixedIn</code> and an optional <code>vexHint</code>. This is the knowledge scanners do not have.</li>
+      <li><code>sampleQueries</code>: four to six questions your desk can answer, and one it must decline.</li>
+    </ul>
+    <p>The desk publishes your advisories as an OSV feed too (<code>osv/index.json</code>), so tools can read them without the assistant. The CLI does the same: <code>node kit/build_desk.mjs desk.json --out site --base-url https://…/</code>.</p>
+  </section>
+</main>
+<footer class="site wrap">Part of Maintainer Desk. Static page: no server, no tracking, no third-party scripts.</footer>
+</body>
+</html>

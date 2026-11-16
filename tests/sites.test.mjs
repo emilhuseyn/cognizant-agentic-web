@@ -126,3 +126,23 @@ for (const [site, network] of [["triage", "triage_desk"], ["lanternmd-desk", "la
     assert.doesNotMatch(text, /otk_[A-Za-z0-9]{8}|sk-[A-Za-z0-9]{20}|demo_mode/);
   });
 }
+
+test("browser kit zip: a valid archive with the desk's files (checked by Python's zipfile)", async () => {
+  const { Zip } = await import("../kit/zip.js");
+  const enc = new TextEncoder();
+  const entries = [
+    { name: "index.html", data: enc.encode("<!doctype html><p>ok</p>\n") },
+    { name: ".well-known/nsdeploy.json", data: enc.encode("{}\n") },
+    { name: "osv/LANTERN-2026-0001.json", data: await readFile(path.join(ROOT, "sites/lanternmd-desk/osv/LANTERN-2026-0001.json")) },
+  ];
+  const blob = Zip.build(entries);
+  const { writeFile, mkdtemp } = await import("node:fs/promises");
+  const os = await import("node:os");
+  const dir = await mkdtemp(path.join(os.tmpdir(), "deskzip-"));
+  const file = path.join(dir, "desk.zip");
+  await writeFile(file, Buffer.from(await blob.arrayBuffer()));
+  const r = spawnSync("py", ["-I", "-c", "import sys,zipfile;z=zipfile.ZipFile(sys.argv[1]);assert z.testzip() is None;print(chr(10).join(z.namelist()))", file], { encoding: "utf8" });
+  if (r.error && r.error.code === "ENOENT") return; // no Python on this machine
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(r.stdout.trim().split(/\r?\n/), entries.map(e => e.name));
+});

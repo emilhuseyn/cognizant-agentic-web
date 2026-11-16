@@ -12,7 +12,7 @@ import { existsSync } from "node:fs";
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { DeskKit } from "../kit/build_desk.mjs";
+import { DeskKit, DeskKitWriter } from "../kit/build_desk.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SKILL = path.join(ROOT, "tools", "agentify-website");
@@ -47,7 +47,7 @@ async function buildDesks(env, check) {
     const errors = DeskKit.validate(desk);
     if (errors.length) throw new Error(`desks/${name}/desk.json: ${errors.join(" ")}`);
     const base = env.desks[name];
-    const kit = new DeskKit(desk, { out: path.join(ROOT, "sites", `${name}-desk`), baseUrl: base });
+    const kit = new DeskKitWriter(desk, { out: path.join(ROOT, "sites", `${name}-desk`), baseUrl: base });
     await kit.write();
     const r = runBuild(path.join(kit.out, `${desk.network}.hocon`), path.join(kit.out, "agent-manifest.json"), false);
     console.log(`\n[${name} desk] ${r.text}`);
@@ -122,12 +122,28 @@ async function buildTriage(env, directory, check) {
   await cp(path.join(SKILL, "runtime"), path.join(out, "runtime"), { recursive: true });
   await cp(path.join(ROOT, "shared", "osv-match.js"), path.join(out, "osv-match.js"));
   await cp(path.join(ROOT, "shared", "site.js"), path.join(out, "site.js"));
-  if (existsSync(path.join(ROOT, "kit", "web"))) {
-    for (const entry of await readdir(path.join(ROOT, "kit", "web"))) await cp(path.join(ROOT, "kit", "web", entry), path.join(out, entry), { recursive: true });
-    await mkdir(path.join(out, "kit"), { recursive: true });
-    await cp(path.join(ROOT, "kit", "template"), path.join(out, "kit", "template"), { recursive: true });
-    await cp(path.join(ROOT, "kit", "build_desk.mjs"), path.join(out, "kit", "build_desk.mjs"));
-  }
+  // The browser Desk Kit (kit.html): the kit core, its templates, an example desk and the list of
+  // runtime files it zips. desk-kit.js imports ../shared/osv-match.js, so that path exists too.
+  for (const entry of await readdir(path.join(ROOT, "kit", "web"))) await cp(path.join(ROOT, "kit", "web", entry), path.join(out, entry));
+  await mkdir(path.join(out, "kit", "template"), { recursive: true });
+  await mkdir(path.join(out, "shared"), { recursive: true });
+  await cp(path.join(ROOT, "kit", "desk-kit.js"), path.join(out, "kit", "desk-kit.js"));
+  await cp(path.join(ROOT, "kit", "zip.js"), path.join(out, "kit", "zip.js"));
+  await cp(path.join(ROOT, "shared", "osv-match.js"), path.join(out, "shared", "osv-match.js"));
+  await cp(path.join(ROOT, "desks", "lanternmd", "desk.json"), path.join(out, "kit", "example-desk.json"));
+  for (const f of ["desk-page.js", "site-actions.js", "desk.css"]) await cp(path.join(ROOT, "kit", "template", f), path.join(out, "kit", "template", f));
+  await cp(path.join(ROOT, "shared", "base.css"), path.join(out, "kit", "template", "base.css"));
+  await cp(path.join(SKILL, "templates", "assistant.css"), path.join(out, "kit", "template", "assistant.css"));
+  await cp(path.join(SKILL, "templates", "bridge", "action-bridge.html"), path.join(out, "kit", "template", "action-bridge.html"));
+  const runtimeFiles = [];
+  const walk = async (dir, rel) => {
+    for (const e of await readdir(dir, { withFileTypes: true })) {
+      if (e.isDirectory()) await walk(path.join(dir, e.name), `${rel}${e.name}/`);
+      else runtimeFiles.push(`${rel}${e.name}`);
+    }
+  };
+  await walk(path.join(SKILL, "runtime"), "runtime/");
+  await writeFile(path.join(out, "kit", "files.json"), JSON.stringify({ runtime: runtimeFiles.sort() }, null, 2) + "\n");
   const css = [
     await readFile(path.join(ROOT, "shared", "base.css"), "utf8"),
     await readFile(path.join(src, "triage.css"), "utf8"),
