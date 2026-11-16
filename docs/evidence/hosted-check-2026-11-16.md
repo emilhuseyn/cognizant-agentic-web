@@ -34,3 +34,6 @@ requests (see the local check, where the desk server logged 0 Authorization head
   the runtime offers every agent) and got "Invalid info component" before answering in text. Its
   instructions, and `vex_analyst`'s, now say not to call any tool, `render_cruse` included.
 - The console showed a 404 for the site icon; the pages now declare an empty inline icon.
+
+Recheck after redeploying (same evening, query 3 again): `advisory_notes` answered without any tool
+call, no errors in the trace, and the whole turn took 56 s instead of 79 s.
