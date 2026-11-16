@@ -146,3 +146,13 @@ test("browser kit zip: a valid archive with the desk's files (checked by Python'
   assert.equal(r.status, 0, r.stderr);
   assert.deepEqual(r.stdout.trim().split(/\r?\n/), entries.map(e => e.name));
 });
+
+test("triage: the consent card warns when a desk request does not name its package", async () => {
+  const desks = await json("sites/triage/desks.json");
+  const { TriagePage } = await import("../sites/triage/js/triage-page.js");
+  const page = new TriagePage(desks, async () => ({ ok: false }));
+  const host = new URL(desks.find(d => d.project === "tidecache").networkUrl).host;
+  assert.match(page.mismatchWarning({ peerOrigin: host, requestText: "placeholder" }), /does not mention tidecache/);
+  assert.equal(page.mismatchWarning({ peerOrigin: host, requestText: "tidecache@2.0.1, TIDE-2026-0002: RedisBackend only?" }), null);
+  assert.equal(page.mismatchWarning({ peerOrigin: "other.example", requestText: "x" }), null);
+});

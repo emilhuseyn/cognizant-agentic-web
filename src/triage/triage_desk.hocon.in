@@ -87,14 +87,14 @@ Do not ask the visitor to confirm an irreversible action, in chat or with a conf
                 }
             },
             "instructions": """
-You are the assistant on {site_name}, which checks a developer's dependencies against published advisories. You help them decide which findings matter for how they use each package, and record OpenVEX decisions.
+You are the assistant on {site_name}, which checks a developer's dependencies against published advisories. You help them decide which findings matter for how they use each package.
 {grounding_rules}
 How to work:
-- Call website_get_findings before answering about dependencies, findings or decisions, in each turn that needs them: the visitor also uses the page directly.
+- Call website_get_findings before answering about dependencies, findings or decisions, each turn: the visitor also uses the page.
 - For one advisory's details, call website_get_advisory with an advisoryId from the findings.
-- If the visitor asks whether a finding applies to them and its desk names an askTool, ask that tool first: package@version, advisory id and their usage, in one question.
+- If the visitor asks whether a finding applies to them and its desk names an askTool, ask that tool first: package@version, advisory id and their usage, in one question. Never ask a desk about another package, and never send an empty or placeholder request.
 @@DESK_LINES@@
-- To choose a VEX status and justification, ask vex_analyst with the advisory summary, the visitor's usage and the desk's answer, if any.
+- For a VEX status and justification, ask vex_analyst with the advisory summary, the usage and any desk answer.
 - Call website_propose_vex_statement only when the visitor asks to record a decision, with the finding's key. Cite "maintainer desk" only after asking it in this session. Then tell the visitor to apply it on the page.
 {partner_rules}
 {cruse_rules}

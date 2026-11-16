@@ -23,3 +23,4 @@
 .export-row .btn { margin-top: 0; }
 #how ol { padding-left: 1.3em; }
 #how li { margin-bottom: 6px; }
+.consent-warning { margin: 8px 0 0; padding: 6px 10px; border-radius: 6px; background: var(--bad-wash); color: var(--bad); font-size: 0.85rem; font-weight: 600; }

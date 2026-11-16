@@ -57,6 +57,24 @@ export class TriagePage {
     }
   }
 
+  // A request to a maintainer desk should name that desk's package. When it does not, the
+  // assistant may have picked the wrong desk: say so on the consent card, before any contact.
+  mismatchWarning(info) {
+    const desk = this.desks.find(d => new URL(d.networkUrl).host === info.peerOrigin);
+    if (!desk) return null;
+    if (String(info.requestText || "").toLowerCase().includes(desk.project.toLowerCase())) return null;
+    return `This request does not mention ${desk.project}. The assistant may have picked the wrong desk; you can decline.`;
+  }
+
+  warnOnMismatch(info, card) {
+    const warning = this.mismatchWarning(info);
+    if (!warning || !card || !this.doc) return;
+    const note = this.doc.createElement("p");
+    note.className = "consent-warning";
+    note.textContent = warning;
+    card.append(note);
+  }
+
   async getJson(url, init, purpose) {
     const origin = new URL(url).origin;
     this.noteContact(new URL(url).host, purpose);
@@ -552,5 +570,6 @@ if (typeof window !== "undefined") {
   App.page = await TriagePage.load();
   App.page.mount(document);
   window.addEventListener("assistant-consent", event => App.page.notePeerConsent(event.detail.info, event.detail.decision));
+  window.addEventListener("assistant-consent-shown", event => App.page.warnOnMismatch(event.detail.info, event.detail.card));
   App.page.loadDemo();
 }

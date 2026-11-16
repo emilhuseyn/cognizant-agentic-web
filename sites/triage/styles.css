@@ -144,6 +144,7 @@ footer.site { color: var(--muted); font-size: 0.88rem; padding: 24px 16px 40px; 
 .export-row .btn { margin-top: 0; }
 #how ol { padding-left: 1.3em; }
 #how li { margin-bottom: 6px; }
+.consent-warning { margin: 8px 0 0; padding: 6px 10px; border-radius: 6px; background: var(--bad-wash); color: var(--bad); font-size: 0.85rem; font-weight: 600; }
 
 /* Assistant layout. Append to the site's stylesheet and set the colors to the site's palette. */
 .assistant { margin-top: 48px; }

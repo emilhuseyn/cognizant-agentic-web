@@ -53,6 +53,9 @@ export class AssistantMount {
   static async consent(info) {
     const answer = AssistantMount.defaultConsent(info);
     AssistantMount.focusConsentCard();
+    // Let the page add a note to the card it just showed, such as a mismatch warning.
+    const cards = document.querySelectorAll("#ns-msgs .ns-consent");
+    window.dispatchEvent(new CustomEvent("assistant-consent-shown", { detail: { info, card: cards[cards.length - 1] || null } }));
     const decision = await answer;
     // Let the page log the contact (spec section 5, observable execution).
     window.dispatchEvent(new CustomEvent("assistant-consent", { detail: { info, decision } }));
